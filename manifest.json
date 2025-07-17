@@ -1,0 +1,53 @@
+{
+  "dxt_version": "0.1",
+  "name": "@pedrocid/music-mcp",
+  "display_name": "Music MCP for Apple Music",
+  "version": "1.1.0",
+  "description": "MCP server for controlling Apple Music on macOS - play tracks, control playback, manage playlists",
+  "long_description": "A comprehensive MCP server that provides full control over Apple Music on macOS. Features include playing specific tracks, controlling playback (play/pause/next/previous), searching your music library, managing playlists, and getting current track information.",
+  "author": {
+    "name": "Pedro Cid",
+    "email": "pedro.cid@gmail.com"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": [
+        "${__dirname}/dist/index.js"
+      ],
+      "env": {}
+    }
+  },
+  "tools": [
+    {
+      "name": "execute_music_command",
+      "description": "Control music playback (play, pause, next, previous, play specific tracks)"
+    },
+    {
+      "name": "get_music_info",
+      "description": "Get current track info, playback status, and library statistics"
+    },
+    {
+      "name": "search_music",
+      "description": "Search your music library by artist, album, or track"
+    },
+    {
+      "name": "manage_playlist",
+      "description": "List playlists, get tracks, and manage playlist contents"
+    }
+  ],
+  "keywords": ["music", "apple music", "audio", "playback", "playlist", "macos"],
+  "license": "MIT",
+  "compatibility": {
+    "platforms": ["darwin"],
+    "runtimes": {
+      "node": ">=16.0.0"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pedrocid/music-mcp.git"
+  }
+}
