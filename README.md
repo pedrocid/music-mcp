@@ -49,23 +49,21 @@ Add this to your Claude Desktop MCP configuration:
   "mcpServers": {
     "music": {
       "command": "npx",
-      "args": ["@pedrocid/music-mcp@latest"],
-      "env": {
-        "MUSIC_MCP_LOG_LEVEL": "info",
-        "MUSIC_MCP_LOG_FILE": "~/Library/Logs/music-mcp.log"
-      }
+      "args": ["@pedrocid/music-mcp@latest"]
     }
   }
 }
 ```
 
-### Environment Variables
+### Environment Variables (Optional)
+
+All environment variables are optional. The server uses stderr logging by default and works without any configuration.
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `MUSIC_MCP_LOG_FILE` | `~/Library/Logs/music-mcp.log` | Log file location |
 | `MUSIC_MCP_LOG_LEVEL` | `info` | Log level (debug, info, warn, error) |
-| `MUSIC_MCP_CONSOLE_LOGGING` | `false` | Enable console logging |
+| `MUSIC_MCP_FILE_LOGGING` | `false` | Enable file logging (disabled by default) |
+| `MUSIC_MCP_LOG_FILE` | `~/Library/Logs/music-mcp.log` | Log file location (only used if file logging enabled) |
 | `MUSIC_MCP_CACHE_TTL` | `300` | Cache timeout in seconds |
 | `MUSIC_MCP_MAX_SEARCH_RESULTS` | `50` | Maximum search results |
 | `MUSIC_MCP_TIMEOUT_SECONDS` | `30` | Default timeout for operations |
@@ -152,7 +150,8 @@ npx @pedrocid/music-mcp@latest
 ### Common Issues
 
 **"Music app is not running"**
-- Start the Music app before using the MCP server
+- The server automatically launches the Music app when needed
+- If issues persist, manually open the Music app first
 
 **"AppleScript execution failed"**
 - Grant automation permissions in System Preferences
@@ -162,13 +161,13 @@ npx @pedrocid/music-mcp@latest
 - Check that you have music in your library
 - Verify your Apple Music subscription is active
 
-### Logs
+### Debugging
 
-Check the log file for detailed error information:
+The server logs to stderr by default, which Claude Desktop captures. For additional debugging, you can:
 
-```bash
-tail -f ~/Library/Logs/music-mcp.log
-```
+1. Check Claude Desktop's MCP logs
+2. Enable file logging by setting `MUSIC_MCP_FILE_LOGGING=true` environment variable
+3. Use the `info` tool to check server diagnostics
 
 ## Example Usage
 
