@@ -5,7 +5,8 @@ import { execSync } from 'child_process';
 import { join } from 'path';
 
 export interface ExecuteMusicCommandInput {
-  command: 'play' | 'pause' | 'next' | 'previous' | 'toggle_playback';
+  command: 'play' | 'pause' | 'next' | 'previous' | 'toggle_playback' | 'play_track';
+  trackSearchTerm?: string; // required for play_track command
   volume?: number; // 0-100, optional with default
   position?: number; // seconds, optional
   shuffleMode?: boolean; // optional, default: current setting
@@ -28,8 +29,12 @@ export const executeMusicCommandTool: Tool = {
     properties: {
       command: {
         type: 'string',
-        enum: ['play', 'pause', 'next', 'previous', 'toggle_playback'],
+        enum: ['play', 'pause', 'next', 'previous', 'toggle_playback', 'play_track'],
         description: 'The playback command to execute'
+      },
+      trackSearchTerm: {
+        type: 'string',
+        description: 'Track name or search term (required for play_track command)'
       },
       volume: {
         type: 'number',
@@ -101,6 +106,21 @@ export async function handleExecuteMusicCommand(input: ExecuteMusicCommandInput)
         result = await executeAppleScript(
           join(__dirname, '../scripts/playback/play-pause.applescript'),
           [],
+          timeout
+        );
+        break;
+
+      case 'play_track':
+        if (!input.trackSearchTerm) {
+          return {
+            success: false,
+            message: 'Track search term is required for play_track command',
+            error: 'Missing track search term'
+          };
+        }
+        result = await executeAppleScript(
+          join(__dirname, '../scripts/playback/play-track.applescript'),
+          [input.trackSearchTerm],
           timeout
         );
         break;
