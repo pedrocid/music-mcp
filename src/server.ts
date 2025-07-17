@@ -20,6 +20,11 @@ import {
   handleManagePlaylist, 
   ManagePlaylistInput 
 } from './tools/playlist-management.js';
+import { 
+  queueMusicTool, 
+  handleQueueMusic, 
+  QueueMusicInput 
+} from './tools/queue-management.js';
 
 export async function registerTools(server: Server): Promise<void> {
   // Register tool definitions
@@ -30,7 +35,8 @@ export async function registerTools(server: Server): Promise<void> {
         executeMusicCommandTool,
         getMusicInfoTool,
         searchMusicTool,
-        managePlaylistTool
+        managePlaylistTool,
+        queueMusicTool
       ]
     };
   });
@@ -98,6 +104,18 @@ export async function registerTools(server: Server): Promise<void> {
               {
                 type: 'text',
                 text: JSON.stringify(playlistResult, null, 2)
+              }
+            ]
+          };
+        }
+
+        case 'queue_music': {
+          const queueResult = await handleQueueMusic(args as QueueMusicInput);
+          return {
+            content: [
+              {
+                type: 'text',
+                text: JSON.stringify(queueResult, null, 2)
               }
             ]
           };

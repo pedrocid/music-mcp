@@ -10,8 +10,9 @@ A Model Context Protocol (MCP) server for controlling Apple Music on macOS using
 - **Playback Control**: Play, pause, skip tracks, and control volume
 - **Current Track Information**: Get detailed track metadata and playback status
 - **Library Management**: Search tracks, albums, artists, and browse your library
-- **Playlist Management**: Create, manage, and modify playlists
-- **Queue Management**: View and control the up next queue
+- **Playlist Management**: Create, manage, modify, and play playlists
+- **Enhanced Queue Management**: Add tracks to play next, view queue status, and control playback order
+- **Smart "Play Next" Feature**: Queue tracks to play after the current song using temporary playlists
 - **Diagnostic Tools**: Built-in info command for troubleshooting
 
 ## Requirements
@@ -145,12 +146,31 @@ Create and manage playlists.
 
 ```json
 {
-  "action": "create|add_track|remove_track|rename|delete|list",
+  "action": "create|add_track|remove_track|rename|delete|list|get_tracks",
   "playlistName": "My Playlist",
   "trackId": "search term for track",
   "newName": "New Playlist Name"
 }
 ```
+
+### `queue_music` ✨ **NEW**
+Enhanced queue management and playlist control.
+
+```json
+{
+  "action": "view_queue|add_to_queue|play_queue|clear_queue|play_playlist",
+  "trackSearchTerm": "song or artist name",
+  "playlistName": "My Playlist",
+  "shuffle": true
+}
+```
+
+**Queue Actions:**
+- `view_queue`: See current track, playlist context, and playback status
+- `add_to_queue`: Add tracks to a temporary "Up Next" queue for sequential playback
+- `play_queue`: Play the tracks you've added to the queue
+- `clear_queue`: Clear all tracks from the up next queue
+- `play_playlist`: Play a specific playlist (with optional shuffle)
 
 ## Permissions
 
@@ -195,12 +215,25 @@ The server logs to stderr by default, which Claude Desktop captures. For additio
 
 Here are some example interactions you can have with Claude using this MCP server:
 
+**Basic Playback:**
 - "Play my music and set the volume to 50%"
 - "What song is currently playing?"
-- "Search for songs by Taylor Swift"
-- "Create a playlist called 'Road Trip' and add some upbeat songs"
 - "Skip to the next track"
+
+**Library & Search:**
+- "Search for songs by Taylor Swift"
 - "Show me my library statistics"
+
+**Playlist Management:**
+- "Create a playlist called 'Road Trip' and add some upbeat songs"
+- "Play my 'Chill' playlist with shuffle enabled"
+- "Remove all tracks by [artist] from my 'Favorites' playlist"
+
+**Queue Management (NEW):**
+- "Add 'Bohemian Rhapsody' to play next"
+- "Show me what's in my up next queue"
+- "Clear my queue and add these 3 songs to play after the current track"
+- "Play my 'Party Mix' playlist next"
 
 ## Development
 

@@ -108,6 +108,21 @@ export async function handleManagePlaylist(input: ManagePlaylistInput): Promise<
         );
         break;
 
+      case 'remove_track':
+        if (!input.playlistName || !input.trackId) {
+          return {
+            success: false,
+            message: 'Playlist name and track search term are required for remove_track action',
+            error: 'Missing required parameters'
+          };
+        }
+        result = await executeAppleScript(
+          join(__dirname, '../scripts/playlist/remove-from-playlist.applescript'),
+          [input.playlistName, input.trackId],
+          config.timeoutSeconds * 1000
+        );
+        break;
+
       case 'rename':
         if (!input.playlistName || !input.newName) {
           return {
