@@ -2,7 +2,8 @@ on run argv
     try
         tell application "Music"
             if not running then
-                return "Error: Music app is not running"
+                launch
+                delay 2 -- give it time to start
             end if
             
             previous track
