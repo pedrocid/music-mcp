@@ -1,7 +1,7 @@
 {
   "name": "@pedrocid/music-mcp",
-  "version": "1.0.0",
-  "description": "MCP server for controlling Apple Music on macOS (v1.0.0)",
+  "version": "1.0.1",
+  "description": "MCP server for controlling Apple Music on macOS (v1.0.1)",
   "main": "dist/index.js",
   "bin": {
     "music-mcp": "dist/index.js"

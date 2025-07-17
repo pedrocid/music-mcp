@@ -1,9 +1,11 @@
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { getVersion } from '../version.js';
 import { validateConfig } from '../config.js';
-import { logPath, logger } from '../logger.js';
+import { logger } from '../logger.js';
 import { existsSync } from 'fs';
 import { execSync } from 'child_process';
+import os from 'os';
+import { dirname } from 'path';
 
 export interface InfoInput {
   command: 'info';
@@ -60,17 +62,33 @@ export async function handleInfoCommand(): Promise<InfoOutput> {
     configurationIssues.push('AppleScript (osascript) not available');
   }
 
-  // Check logger status
-  const loggerStatus = existsSync(logPath) ? 'ok' : 'error';
-  if (loggerStatus === 'error') {
-    configurationIssues.push(`Log file not accessible: ${logPath}`);
+  // Check logger status - primarily using stderr now
+  let loggerPath = 'stderr (standard error)';
+  let loggerStatus: 'ok' | 'error' = 'ok';
+
+  // Check if file logging is enabled and accessible
+  if (process.env.NODE_ENV === 'development' || process.env.MUSIC_MCP_FILE_LOGGING === 'true') {
+    const logFile = process.env.MUSIC_MCP_LOG_FILE || 
+      `${os.homedir()}/Library/Logs/music-mcp.log`;
+    
+    try {
+      const logDir = dirname(logFile);
+      if (existsSync(logDir) || existsSync(logFile)) {
+        loggerPath = `stderr + file: ${logFile}`;
+      } else {
+        loggerPath = `stderr (file logging failed: ${logFile})`;
+        configurationIssues.push(`Optional log file directory not accessible: ${logDir}`);
+      }
+    } catch (error) {
+      loggerPath = 'stderr (file logging disabled due to error)';
+    }
   }
 
   return {
     version: getVersion(),
     musicAppAvailable,
     appleScriptAvailable,
-    loggerPath: logPath,
+    loggerPath,
     loggerStatus,
     configurationIssues
   };
