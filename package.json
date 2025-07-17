@@ -9,7 +9,8 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "manifest.json"
   ],
   "scripts": {
     "build": "tsc && npm run postbuild",
