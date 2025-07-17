@@ -5,17 +5,25 @@ import os from 'os';
 
 // Create logger with stderr output (for Claude Desktop) and optional file logging
 function createLogger() {
-  const targets: any[] = [
-    // Always log to stderr for Claude Desktop
-    {
+  const targets: any[] = [];
+
+  // Try to add stderr logging with pino-pretty, fallback to basic stderr
+  try {
+    targets.push({
       target: 'pino-pretty',
       options: { 
         destination: 2, // stderr
         colorize: false,
         translateTime: true
       }
-    }
-  ];
+    });
+  } catch (error) {
+    // Fallback to basic stderr logging without pino-pretty
+    targets.push({
+      target: 'pino/file',
+      options: { destination: 2 }
+    });
+  }
 
   // Only add file logging in development or if explicitly requested
   if (process.env.NODE_ENV === 'development' || process.env.MUSIC_MCP_FILE_LOGGING === 'true') {
@@ -37,10 +45,18 @@ function createLogger() {
     }
   }
 
-  return pino({
-    level: (process.env.MUSIC_MCP_LOG_LEVEL || 'info').toLowerCase(),
-    transport: { targets }
-  });
+  try {
+    return pino({
+      level: (process.env.MUSIC_MCP_LOG_LEVEL || 'info').toLowerCase(),
+      transport: { targets }
+    });
+  } catch (error) {
+    // Ultimate fallback to basic console logging
+    console.error(`Warning: Could not create advanced logger, using console: ${error instanceof Error ? error.message : String(error)}`);
+    return pino({
+      level: (process.env.MUSIC_MCP_LOG_LEVEL || 'info').toLowerCase()
+    });
+  }
 }
 
 export const logger = createLogger();
