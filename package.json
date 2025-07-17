@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "tsc && npm run postbuild",
-    "postbuild": "chmod +x dist/index.js",
+    "postbuild": "chmod +x dist/index.js && cp -r src/scripts dist/",
     "prepublishOnly": "npm run build && npm run test",
     "test": "vitest",
     "test:e2e": "vitest run --config vitest.e2e.config.ts",
