@@ -1,0 +1,19 @@
+# Source files
+src/
+tests/
+scripts/prepare-release.js
+
+# Config files
+.eslintrc.js
+vitest.config.ts
+vitest.e2e.config.ts
+tsconfig.json
+
+# Development files
+.gitignore
+.npmignore
+CHANGELOG.md
+*.log
+.DS_Store
+
+# Keep only dist/, README.md, LICENSE, and package.json 

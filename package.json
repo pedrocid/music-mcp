@@ -1,0 +1,64 @@
+{
+  "name": "@pedrocid/music-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for controlling Apple Music on macOS (v1.0.0)",
+  "main": "dist/index.js",
+  "bin": {
+    "music-mcp": "dist/index.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && npm run postbuild",
+    "postbuild": "chmod +x dist/index.js",
+    "prepublishOnly": "npm run build && npm run test",
+    "test": "vitest",
+    "test:e2e": "vitest run --config vitest.e2e.config.ts",
+    "lint": "eslint src --ext .ts",
+    "prepare-release": "node scripts/prepare-release.js",
+    "inspector": "npx @modelcontextprotocol/inspector node dist/index.js"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "music",
+    "apple-music",
+    "macos",
+    "automation",
+    "applescript"
+  ],
+  "author": "Pedro Cid",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pedrocid/music-mcp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pedrocid/music-mcp/issues"
+  },
+  "homepage": "https://github.com/pedrocid/music-mcp#readme",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.15.1",
+    "pino": "^8.0.0",
+    "applescript": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "eslint": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0",
+    "pino-pretty": "^10.0.0"
+  }
+} 
