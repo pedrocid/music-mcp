@@ -27,7 +27,7 @@ on run argv
             end if
             
             -- Search for tracks
-            set searchResults to (search library for searchTerm)
+            set searchResults to (search playlist 1 for searchTerm)
             if length of searchResults is 0 then
                 return "Error: No tracks found for '" & searchTerm & "'"
             end if

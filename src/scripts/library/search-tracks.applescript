@@ -12,7 +12,7 @@ on run argv
                 delay 2 -- give it time to start
             end if
             
-            set searchResults to (search library for searchQuery)
+            set searchResults to (search playlist 1 for searchQuery)
             set resultList to "["
             set resultCount to 0
             

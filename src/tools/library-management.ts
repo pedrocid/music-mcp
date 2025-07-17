@@ -1,7 +1,7 @@
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { logger } from '../logger.js';
 import { getConfig } from '../config.js';
-import applescript from 'applescript';
+import { execSync } from 'child_process';
 import { join } from 'path';
 
 export interface GetMusicInfoInput {
@@ -289,19 +289,22 @@ export async function handleSearchMusic(input: SearchMusicInput): Promise<MusicI
 }
 
 async function executeAppleScript(scriptPath: string, args: string[] = [], timeout: number = 30000): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const timeoutId = setTimeout(() => {
-      reject(new Error(`AppleScript execution timed out after ${timeout}ms`));
-    }, timeout);
-
-    applescript.execFile(scriptPath, args, (error: Error | null, result: string) => {
-      clearTimeout(timeoutId);
-      
-      if (error) {
-        reject(error);
-      } else {
-        resolve(result || '');
-      }
+  try {
+    // Build the command with properly escaped arguments
+    const quotedArgs = args.map(arg => `"${arg.replace(/"/g, '\\"')}"`).join(' ');
+    const command = `osascript "${scriptPath}" ${quotedArgs}`;
+    
+    const result = execSync(command, {
+      timeout,
+      encoding: 'utf8',
+      stdio: 'pipe'
     });
-  });
+    
+    return result.toString().trim();
+  } catch (error: any) {
+    if (error.code === 'TIMEOUT') {
+      throw new Error(`AppleScript execution timed out after ${timeout}ms`);
+    }
+    throw new Error(`AppleScript execution failed: ${error.message}`);
+  }
 } 
