@@ -34,7 +34,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pedrocid/music-mcp.git"
+    "url": "git+https://github.com/pedrocid/music-mcp.git"
   },
   "bugs": {
     "url": "https://github.com/pedrocid/music-mcp/issues"
@@ -61,4 +61,4 @@
     "vitest": "^1.0.0",
     "pino-pretty": "^10.0.0"
   }
-} 
+}
