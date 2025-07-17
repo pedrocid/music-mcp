@@ -50,4 +50,7 @@ ehthumbs.db
 *.ntvs*
 *.njsproj
 *.sln
-*.sw? 
+*.sw?
+
+# Desktop Extension build artifacts
+*.dxt 

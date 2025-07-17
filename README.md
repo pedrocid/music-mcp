@@ -38,6 +38,28 @@ npm install
 npm run build
 ```
 
+### Building as Desktop Extension
+
+If you want to create a Desktop Extension (.dxt) for distribution:
+
+```bash
+# Install the DXT CLI tool
+npm install -g @anthropic-ai/dxt
+
+# Initialize Desktop Extension (if not already done)
+dxt init
+
+# Build the project
+npm run build
+
+# Package the extension
+dxt pack
+```
+
+This creates a `music-mcp.dxt` file that can be installed directly in Claude Desktop or submitted to the Anthropic extension directory.
+
+**Note**: The `.dxt` file is not included in the repository as it's a build artifact. Users who want the Desktop Extension should build it themselves using the instructions above.
+
 ## Configuration
 
 ### Claude Desktop Configuration
