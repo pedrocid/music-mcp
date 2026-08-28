@@ -18,7 +18,7 @@ export function getConfig(): Config {
     consoleLogging: process.env.MUSIC_MCP_CONSOLE_LOGGING === 'true',
     cacheTtl: parseInt(process.env.MUSIC_MCP_CACHE_TTL || '300', 10),
     maxSearchResults: parseInt(process.env.MUSIC_MCP_MAX_SEARCH_RESULTS || '50', 10),
-    timeoutSeconds: parseInt(process.env.MUSIC_MCP_TIMEOUT_SECONDS || '30', 10),
+    timeoutSeconds: parseInt(process.env.MUSIC_MCP_TIMEOUT_SECONDS || '45', 10),
     artworkExport: process.env.MUSIC_MCP_ARTWORK_EXPORT !== 'false',
     lenientParsing: process.env.MUSIC_MCP_LENIENT_PARSING !== 'false'
   };
