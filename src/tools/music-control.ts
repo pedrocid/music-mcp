@@ -1,7 +1,7 @@
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { logger } from '../logger.js';
 import { getConfig } from '../config.js';
-import { execSync } from 'child_process';
+import { execFileSync } from 'child_process';
 import { join } from 'path';
 
 export interface ExecuteMusicCommandInput {
@@ -184,11 +184,8 @@ export async function handleExecuteMusicCommand(input: ExecuteMusicCommandInput)
 
 async function executeAppleScript(scriptPath: string, args: string[] = [], timeout: number = 30000): Promise<string> {
   try {
-    // Build the command with properly escaped arguments
-    const quotedArgs = args.map(arg => `"${arg.replace(/"/g, '\\"')}"`).join(' ');
-    const command = `osascript "${scriptPath}" ${quotedArgs}`;
-    
-    const result = execSync(command, {
+    // execFileSync: args go straight to osascript, never through a shell
+    const result = execFileSync('osascript', [scriptPath, ...args], {
       timeout,
       encoding: 'utf8',
       stdio: 'pipe'
